@@ -7,7 +7,7 @@ const { check, validationResult } = require('express-validator');
 
 const Profile = require('../../models/Profile.model');
 const User = require('../../models/User.model');
-// const Post = require('../../models/Post');
+const Post = require('../../models/Post.model');
 
 // @route    GET api/profile/me
 // @desc     Get current users profile
@@ -154,7 +154,7 @@ router.get('/user/:user_id', async (req, res) => {
 router.delete('/', auth, async (req, res) => {
   try {
     // Remove user posts
-    // await Post.deleteMany({ user: req.user.id });
+    await Post.deleteMany({ user: req.user.id });
     // Remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
     // Remove user
@@ -327,68 +327,68 @@ router.get('/github/:username', (req, res) => {
 //   }
 // });
 
-// // @route    PUT api/profile/education
-// // @desc     Add profile education
-// // @access   Private
-// router.put(
-//   '/education',
-//   [
-//     auth,
-//     [
-//       check('school', 'School is required')
-//         .not()
-//         .isEmpty(),
-//       check('degree', 'Degree is required')
-//         .not()
-//         .isEmpty(),
-//       check('fieldofstudy', 'Field of study is required')
-//         .not()
-//         .isEmpty(),
-//       check('from', 'From date is required')
-//         .not()
-//         .isEmpty()
-//     ]
-//   ],
-//   async (req, res) => {
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({ errors: errors.array() });
-//     }
+// @route    PUT api/profile/education
+// @desc     Add profile education
+// @access   Private
+router.put(
+  '/education',
+  [
+    auth,
+    [
+      check('school', 'School is required')
+        .not()
+        .isEmpty(),
+      check('degree', 'Degree is required')
+        .not()
+        .isEmpty(),
+      check('fieldofstudy', 'Field of study is required')
+        .not()
+        .isEmpty(),
+      check('from', 'From date is required')
+        .not()
+        .isEmpty()
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-//     const {
-//       school,
-//       degree,
-//       fieldofstudy,
-//       from,
-//       to,
-//       current,
-//       description
-//     } = req.body;
+    const {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description
+    } = req.body;
 
-//     const newEdu = {
-//       school,
-//       degree,
-//       fieldofstudy,
-//       from,
-//       to,
-//       current,
-//       description
-//     };
+    const newEdu = {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description
+    };
 
-//     try {
-//       const profile = await Profile.findOne({ user: req.user.id });
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
 
-//       profile.education.unshift(newEdu);
+      profile.education.unshift(newEdu);
 
-//       await profile.save();
+      await profile.save();
 
-//       res.json(profile);
-//     } catch (err) {
-//       console.error(err.message);
-//       res.status(500).send('Server Error');
-//     }
-//   }
-// );
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
 
 // // @route    DELETE api/profile/education/:edu_id
 // // @desc     Delete education from profile
