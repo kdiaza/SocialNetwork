@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Spinner from '../layouts/Spiner';
-// import ProfileTop from './ProfileTop';
-// import ProfileAbout from './ProfileAbout';
-// import ProfileExperience from './ProfileExperience';
-// import ProfileEducation from './ProfileEducation';
-// import ProfileGithub from './ProfileGithub';
+import ProfileTop from './ProfileTop';
+import ProfileAbout from './ProfileAbout';
+import ProfileExperience from './ProfileExperience';
+import ProfileEducation from './ProfileEducation';
+import ProfileGithub from './ProfileGithub';
 import { getProfileById } from '../../actions/profile';
 
 // const Profile = ({
